@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  
+  <title>LIKEME Profile Page</title>
+  <style type="text/css">
+  body {
+    background-image: url("bgimg2.png");
+    background-size: 1280px 800px auto;
+    background-attachment: fixed;
+    background-position: 5% 5%;
+  }
+  </style>
+
+  <style>
+    * {margin: 0; padding: 0;}
+ 
+    body {
+    }
+    #pic_view {
+    overflow: visible;
+
+    }
+    .gallery img{
+      opacity: 0.7;
+
+    }
+
+
+    img.blockbanner {
+    z-index: 20;
+    position: relative;
+    }
+ 
+    .gallery img:hover {
+      -webkit-transform: scale(1.1);
+      -moz-transform: scale(1.1);
+      -o-transform: scale(1.1);
+      -ms-transform: scale(1.1);
+      opacity: 1;
+      cursor: pointer;
+    }
+  </style>
+
+
+  <style>
+  #tag {
+    opacity: 1;
+  }
+  #tag:hover {
+    border-radius: 50%;
+    opacity: 0.3; 
+  }
+  </style>
+
+
+
+
+
+
+<!-- ________________FRIENDS SLIDESHOW___________  -->
+<style>
+* {margin: 0; padding: 0;}
+
+body {
+  <!-- src: http://subtlepatterns.com/?p=1045 -->
+}
+
+
+ 
+#container {
+    width: 700px;
+    
+    overflow: hidden;
+    margin-top: 175px;
+    margin-left: 500px;
+    position: fixed;
+    vertical-align: top;
+    
+}
+/*photobanner*/
+.photobanner {
+    height: 233px;
+    width: 3550px;
+    margin-bottom: 80px;
+    z-index: 30;
+    position: relative;
+}
+ 
+.photobanner img {
+    
+
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+ 
+.photobanner img:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    cursor: pointer;
+ 
+    -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+}
+
+
+/*keyframe animations*/
+.first {
+    -webkit-animation: bannermove 30s linear infinite;
+       -moz-animation: bannermove 30s linear infinite;
+        -ms-animation: bannermove 30s linear infinite;
+         -o-animation: bannermove 30s linear infinite;
+            animation: bannermove 30s linear infinite;
+}
+ 
+@keyframes "bannermove" {
+ 0% {
+    margin-left: 0px;
+ }
+ 100% {
+    margin-left: -1200px;
+ }
+ 
+}
+ 
+@-moz-keyframes bannermove {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -1200px;
+ }
+ 
+}
+ 
+@-webkit-keyframes "bannermove" {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -1200px;
+ }
+ 
+}
+ 
+@-ms-keyframes "bannermove" {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -1200px;
+ }
+ 
+}
+ 
+@-o-keyframes "bannermove" {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -1200px;
+ }
+ 
+}
+</style>
+
+
+<div id="container">
+    <header>
+        
+    </header>
+     
+    <div class="photobanner">
+        
+        <a href=""><img class="first" src="Faces/01.png" width="120" height="120" alt="01" ></a>
+        <a href=""><img src="Faces/02.png" width="120" height="120" alt="02"></a>
+        <a href=""><img src="Faces/03.png" width="120" height="120" alt="03"></a>
+        <a href=""><img src="Faces/04.png" width="120" height="120" alt="04"></a>
+        <a href=""><img src="Faces/05.png" width="120" height="120" alt="05"></a>
+        <a href=""><img src="Faces/06.png" width="120" height="120" alt="06"></a>
+        <a href=""><img src="Faces/07.png" width="120" height="120" alt="08"></a>
+        <a href=""><img src="Faces/08.png" width="120" height="120" alt="08"></a>
+        <a href=""><img src="Faces/09.png" width="120" height="120" alt="09"></a>
+        <a href=""><img src="Faces/10.png" width="120" height="120" alt="10"></a>
+    </div>
+</div>
+
+
+
+
+
+  <font color="black|0A1F30|rgb(10,31,48)">
+
+</head>
+
+
+
+
+<!-- Main content -->
+<div>
+  <!--
+  <img src="find.png"style="position:fixed; TOP:30px; LEFT:100px; width:200px;height:50x">
+  -->
+  <div id = 'tag'>
+    <a href=""><img src="SearchByTag_1.png" style="position:fixed; TOP:5px; LEFT:150px; width:100px;height:100px">
+  </a>
+</div>
+
+  <img src="LikeMe_logo.jpg" align = "middle" style="position:fixed; TOP:15px; LEFT:540px; width:200px;height:54px">
+</div>
+
+
+<!-- PERSONAL PROFILE -->
+<div>
+<img src="http://s22.postimg.org/4zt3xpskx/Profile_Pic.jpg" alt="Your Profile Pic" style="position:fixed; TOP:120px; LEFT:30px; width:350px;height:350px">
+
+<img src="Label.png" alt="Your Name" style="position:fixed; TOP:480px; LEFT:30px; width:350px;height:50px"> 
+
+<font face="ThaiSans Neue" color="white" size="6" style="position:fixed; TOP:475px; LEFT:135px;">YOUR NAME</font>
+
+<img src="Name_Tag.png" alt="Your Bio" style="position:fixed; TOP:530px; LEFT:10px; width:390px;height:150px">
+
+<font face="ThaiSans Neue" color="black" size="5" style="position:fixed; TOP:550px; LEFT:50px;">
+<p>Personal BIO</p>
+</font>
+</div>
+
+
+<!-- FRIENDS BLOCK -->
+<div id='tag'>
+  <img src="Friends_Block_Tag.png" alt="friends" style="position:fixed; TOP:120px; LEFT:500px; width:146px;height:37px">
+</div>
+
+
+
+
+<!-- INTERESTS BLOCK -->
+<div id='tag'>
+  <a href=""><img src="Books_Block_Tag.png" alt="friends" style="position:fixed; TOP:400px; LEFT:500px; width:146px;height:37px">
+  </a>
+</div>
+
+<div id='tag'>
+  <a href=""><img src="Music_Block_Tag.png" alt="friends" style="position:fixed; TOP:400px; LEFT:646px; width:146px;height:37px">
+  </a>
+</div>
+
+<div id='tag'>
+  <a href=""><img src="MoviesTV_Block_Tag.png" alt="friends" style="position:fixed; TOP:400px; LEFT:792px; width:146px;height:37px">
+  </a>
+</div>
+<div class="blockbanner">
+  <a href=""><img src="Block.png" alt="Block" style="position:fixed; TOP:430px; LEFT:485px; width:700px;height:215px">
+  </a>
+</div>
+
+
+<!-- PERSONAL LINK FB TWITTER INSTRAGRAM ETC.-->
+<div id='tag'>
+ <a href = "https://www.facebook.com"> <img src="glypho/png/facebook2.png" alt="facebook" style="position:fixed; TOP:410px; LEFT:280px; width:50px;height:50px">
+</div>
+
+<div id='tag'>
+ <a href = "https://www.twitter.com"> <img src="glypho/png/twitter.png" alt="twitter" style="position:fixed; TOP:410px; LEFT:320px; width:50px;height:50px">
+</div>
+
+
+<!-- SEARCH BY TAG -->
+<!--
+<div id = 'tag'>
+    <a href=""><img src="SearchByTag_1.png" style="position:fixed; TOP:5px; LEFT:1000px; width:100px;height:100px">
+  </a>
+</div>
+-->
+
+<!-- FRIENDS PROFILE PICS -->
+<!--
+<div>
+  <style>
+  .div-1 {
+    z-index: 20;
+  }
+  </style>
+    <a href=""><img class="blockbanner" src="Block.png" alt="Block" align="bottom" style="position:fixed; z-index: 20;TOP:150px; LEFT:485px; width:700px;height:185px">
+  </a>
+</div>
+
+-->
+
+<!-- MUSIC INTERESTS PICS -->
+<div id="pic_view">
+  <div class='gallery'>
+    <a href=""><img src="Interests/Music/01.png" width="80" height="80" style="position:fixed; TOP:450px; LEFT:500px;" alt="01"></a>
+
+    <a href=""><img src="Interests/Music/02.png" width="80" height="80" style="position:fixed; TOP:450px; LEFT:590px;" alt="02"></a>
+
+    <a href=""><img src="Interests/Music/03.png" width="80" height="80" style="position:fixed; TOP:450px; LEFT:680px;" alt="03"></a>
+
+    <a href=""><img src="Interests/Music/04.png" width="80" height="80" style="position:fixed; TOP:450px; LEFT:770px;" alt="04"></a>
+
+    <a href=""><img src="Interests/Music/05.png" width="80" height="80" style="position:fixed; TOP:450px; LEFT:860px;" alt="05"></a>
+
+    <a href=""><img src="Interests/Music/06.png" width="80" height="80" style="position:fixed; TOP:450px; LEFT:950px;" alt="05"></a>
+
+    <a href=""><img src="Interests/Music/07.png" width="80" height="80" style="position:fixed; TOP:450px; LEFT:1040px;" alt="05"></a>
+
+    <a href=""><img src="Interests/Music/08.png" width="80" height="80" style="position:fixed; TOP:550px; LEFT:500px;" alt="05"></a>
+
+    <a href=""><img src="Interests/Music/09.png" width="80" height="80" style="position:fixed; TOP:550px; LEFT:590px;" alt="02"></a>
+    
+    <a href=""><img src="Interests/Music/10.png" width="80" height="80" style="position:fixed; TOP:550px; LEFT:680px;" alt="03"></a>
+
+    <a href=""><img src="Interests/Music/11.png" width="80" height="80" style="position:fixed; TOP:550px; LEFT:770px;" alt="04"></a>
+
+    <a href=""><img src="Interests/Music/12.png" width="80" height="80" style="position:fixed; TOP:550px; LEFT:860px;" alt="05"></a>
+
+    <a href=""><img src="Interests/Music/13.png" width="80" height="80" style="position:fixed; TOP:550px; LEFT:950px;"></a> 
+  </div>
+</div>
+
+</body>
+</html>
