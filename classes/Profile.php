@@ -22,7 +22,7 @@ class Profile
             $this->showProfile();
         } elseif (isset($_POST["updateProfile"]) AND $this->isProfileOwner()) {
            $this->updateProfile();
-        } elseif (isset($_POST["updateProfile"]) AND $this->isProfileOwner() ) {
+        } elseif (isset($_POST["updateProfile"]) AND $this->isProfileOwner()) {
             $this->errors[] = "Sorry, No Permission";
         } else {
         	$this->errors[] = "Error!";
@@ -32,10 +32,10 @@ class Profile
 
     private function showProfile()
     {
-    	 if (empty($_GET['uid'])) {
+        if (empty($_GET['uid'])) {
             $this->errors[] = "No User";
 
-         } elseif (!empty($_GET['uid'])) {
+        } elseif (!empty($_GET['uid'])) {
 
 			$this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
@@ -44,12 +44,19 @@ class Profile
 			}
 
 			if (!$this->db_connection->connect_errno) {
-				$uid = $this->db_connection->real_escape_string($_GET['uid']);
+				$uid = $this->db_connection->real_escape_string(strip_tags($_GET['uid'], ENT_QUOTES));
 
-				$sql = "SELECT first_name, last_name, about, updated_at FROM user_profile WHERE uid = '" . $uid . "';";
-				$sql2 = "SELECT uid FROM user WHERE uid = '" . $uid . "';";
+				$sql = "SELECT first_name, last_name, about, updated_at 
+                        FROM user_profile 
+                        WHERE uid = '" . $uid . "';";
+
+                $sql2 = "SELECT uid 
+                        FROM user 
+                        WHERE uid = '" . $uid . "';";
+
                 $result_profile = $this->db_connection->query($sql);
                 $result_check_uid_exist = $this->db_connection->query($sql2);
+
                 if ($result_profile->num_rows == 1) {
 
                     $result_row = $result_profile->fetch_object();
@@ -98,11 +105,18 @@ class Profile
             $about = $this->db_connection->real_escape_string(strip_tags($_POST['about'], ENT_QUOTES));
             $uid = $_SESSION['uid'];
 
-            $sql = "SELECT profile_id FROM user_profile WHERE uid = '" . $uid . "';";
+            $sql = "SELECT profile_id 
+                    FROM user_profile 
+                    WHERE uid = '" . $uid . "';";
+
             $result_user_have_profile = $this->db_connection->query($sql);
 
             if ($result_user_have_profile->num_rows == 1) { //update Profile
-                $sql = "UPDATE user_profile SET first_name = '" . $first_name . "', last_name = '" . $last_name . "', about = '" . $about . "', updated_at = '" . time() . "' ; ";
+
+                $sql = "UPDATE user_profile 
+                        SET first_name = '" . $first_name . "', last_name = '" . $last_name . "', about = '" . $about . "', updated_at = '" . time() . "'
+                        WHERE uid = '" . $uid . "' ; ";
+
                 $query_update_profile = $this->db_connection->query($sql);
 
                 if ($query_update_profile) {
@@ -115,7 +129,9 @@ class Profile
 
             } elseif ($result_user_have_profile->num_rows == 0) { //create new Profile (INSERT)
 
-                $sql = "INSERT INTO user_profile (uid, first_name, last_name, about, created_at, updated_at) VALUES('" . $uid . "', '" . $first_name . "', '" . $last_name . "', '" . $about . "', '" . time() . "', '" . time() . "' );";
+                $sql = "INSERT INTO user_profile (uid, first_name, last_name, about, created_at, updated_at) 
+                        VALUES('" . $uid . "', '" . $first_name . "', '" . $last_name . "', '" . $about . "', '" . time() . "', '" . time() . "' );";
+                        
                 $query_new_user_profile_insert = $this->db_connection->query($sql);
 
                 if ($query_new_user_profile_insert) {
@@ -145,6 +161,16 @@ class Profile
         } else {
             return false;  
         }
+    }
+
+    public function isEditProfile()
+    {
+        if (isset($_GET["editProfile"]) AND $this->isProfileOwner()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 
