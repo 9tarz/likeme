@@ -14,6 +14,7 @@ if (isset($profile)) {
     var_dump($profile->data);
 }
 ?>
+<p><?php echo $profile->data["first_name"]; ?></p>
 </br>
 <p> last updated at <?php if (isset($profile->data['last_updated_at'])) echo $profile->data['last_updated_at']; else echo ""; {
     # code...

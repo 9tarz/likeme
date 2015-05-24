@@ -1,3 +1,11 @@
+<?php
+    require_once("libraries/password_compatibility_library.php");
+    require_once("config/db_config.php");
+    require_once("classes/Auth.php");
+
+    $auth = new Auth();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,25 +36,14 @@
 </div>
 
 <div class="l-content">
-    <div class="pricing-tables pure-g">
-        <div class="pure-u-2 pure-u-md-1-3"></div>
-        <div class="pure-u-2 pure-u-md-1-3">
-            <div class="pricing-table pricing-table-biz pricing-table-selected">
-                <div class="pricing-table-header">
-                    <h2>LOGIN</h2>
-                </div>
 
-                <ul class="pricing-table-list">
-                    <li>Free setup</li>
-                    <li>Use your own domain</li>
-                    <li>Standard customer support</li>
-                </ul>
-
-                <button class="button-choose pure-button">Choose</button>
-            </div>
-        </div>
-
-    </div> <!-- end pricing-tables -->
+    <?php 
+        if ($auth->isUserSignin() == true) {
+            header("Location: profile.php?uid=" . $_SESSION["uid"]."");
+        } else {
+            include("views/signin.php");
+        }
+    ?>
 
     <div class="information pure-g">
         <div class="pure-u-1 pure-u-md-1-1">

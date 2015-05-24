@@ -19,3 +19,4 @@
 	}
 
 ?>
+<a href="index.php?signout">Signout</a>
