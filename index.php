@@ -13,7 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="A layout example that shows off a responsive pricing table.">
 
-    <title>Pricing Table &ndash; Layout Examples &ndash; Pure</title>
+    <title>LikeMe</title>
 
 <link rel="stylesheet" type="text/css" href="libraries/pure-release-0.6.0/pure-min.css">
 
