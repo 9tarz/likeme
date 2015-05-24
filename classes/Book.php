@@ -38,7 +38,15 @@ class Book
         } else if (isset($_GET["showBook"]) AND isset($_GET["book_id"])) {
 
             $this->showBook();
-            
+
+        } else if (isset($_GET["updateBook"]) AND isset($_GET["book_id"]) AND empty($_POST["updateBook"])) {
+
+            $this->showBook();
+
+        } else if (isset($_GET["updateBook"]) AND isset($_GET["book_id"]) AND isset($_POST["updateBook"])) {
+
+            $this->updateBook();
+                
         } else {
         	$this->errors[] = "Error!";
         }
@@ -94,7 +102,7 @@ class Book
 
             $book_id = $this->db_connection->real_escape_string(strip_tags($_GET['book_id'], ENT_QUOTES));
 
-            $sql = "SELECT book_id, ISBN, name, description, created_at
+            $sql = "SELECT book_id, ISBN, name, description, created_at, updated_at
                     FROM book
                     WHERE book_id = '" . $book_id . "';";
 
@@ -109,9 +117,13 @@ class Book
                 $this->data["book_name"] = $result_book_row->name;
                 $this->data["book_description"] = $result_book_row->description;
 
-                $date = new DateTime();
-                $date->setTimestamp($result_book_row->created_at);
-                $this->data["created_at"] = $date->format('Y-m-d H:i:s');
+                $created_date = new DateTime();
+                $created_date->setTimestamp($result_book_row->created_at);
+                $this->data["created_at"] = $created_date->format('Y-m-d H:i:s');
+
+                $updated_date = new DateTime();
+                $updated_date->setTimestamp($result_book_row->updated_at);
+                $this->data["updated_at"] = $updated_date->format('Y-m-d H:i:s');
 
             } else if ($result_book->num_rows == 0) {
 
@@ -127,6 +139,56 @@ class Book
 
     }
 
+
+    private function updateBook()
+    {
+
+        $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+        if (!$this->db_connection->set_charset("utf8")) {
+
+            $this->errors[] = $this->db_connection->error;
+        }
+
+        if (!$this->db_connection->connect_errno) {
+
+            $book_name = $this->db_connection->real_escape_string(strip_tags($_POST['book_name'], ENT_QUOTES));
+            $book_description = $this->db_connection->real_escape_string(strip_tags($_POST['book_description'], ENT_QUOTES));
+            $uid = $_SESSION['uid'];
+
+            $sql = "SELECT book_id 
+                    FROM  book
+                    WHERE name = '" . $book_name . "';";
+
+            $result_is_book_exist = $this->db_connection->query($sql);
+
+            $result_is_book_exist_row = $result_is_book_exist->fetch_object();
+
+            $book_id = $result_is_book_exist_row->book_id;
+
+            if ($result_is_book_exist->num_rows == 1) { // this book is exist
+
+                $sql = "UPDATE book
+                        SET name = '" . $book_name . "', description = '" . $book_description . "', updated_at = '" . time() . "', updated_by = '" . $uid . "'
+                        WHERE book_id = '" . $book_id . "' ; ";
+
+                $query_update_book = $this->db_connection->query($sql);
+
+                $this->messages[] = "This book has been updated successfully.";
+                header("Location: book.php?showBook&book_id=" . $book_id . "");
+
+            } elseif ($result_is_book_exist->num_rows == 0) { 
+                
+                $this->errors[] = "Book Not Found!";
+
+            } else {
+
+                $this->errors[] = "Problem in Book Table.";
+            }
+        } else {
+            $this->errors[] = "Sorry, no database connection.";
+        }
+    }
 
     private function searchBook()
     {
@@ -356,6 +418,16 @@ class Book
     public function isShowBook()
     {
         if (isset($_GET["showBook"]) AND isset($_GET["book_id"])) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function isUpdateBook()
+    {
+        if (isset($_GET["updateBook"]) AND isset($_GET["book_id"])) {
             return true;
         } else {
             return false;

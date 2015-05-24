@@ -26,8 +26,8 @@ if (isset($profile)) {
     <input id="editProfile_last_name" type="text" name="last_name" value="<?php echo $profile->data['last_name']; ?>" required />
 
     <label for="about">About you</label>
-    <input id="editProfile_about" type="text" name="about" value="<?php echo $profile->data['about']; ?>" required />
-
+    <textarea id="editProfile_about" name="about" > <?php echo $profile->data['about']; ?> </textarea>
+    
     <input type="submit"  name="updateProfile" value="UpdateProfile" />
 
 </form>
