@@ -39,3 +39,12 @@ if (isset($book)) {
 </br>
 <?php echo "<a href=\"book.php?updateBook&book_id=" . $book->data["book_id"] . "\"> edit this Book</a>" ; ?>
 
+<h2> Book status </h2>
+<?php
+    if ($book->data["book_tag_status"]) {
+        for ($i =0 ; $i < count($book->data["book_tag_status"]) ; $i++) {
+            echo "<li>" . $book->data["book_tag_status"][$i]["tag_name"] . " : " . $book->data["book_tag_status"][$i]["count"] .  "</li>";
+        }
+    }
+?>
+

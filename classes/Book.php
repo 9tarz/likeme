@@ -27,7 +27,11 @@ class Book
 
             $this->createBook();
 
-        } else if (isset($_GET["addBook"]) AND isset($_GET["book_id"])) {
+        } else if (isset($_GET["addBook"]) AND isset($_GET["book_id"]) AND empty($_POST["addBook"]) ) {
+
+            $this->showBook();
+
+        } else if (isset($_GET["addBook"]) AND isset($_GET["book_id"]) AND isset($_POST["updateBook"])) {
 
             $this->addBook();
 
@@ -110,7 +114,29 @@ class Book
 
             $result_book_row = $result_book->fetch_object();
 
+
+            $sql = "SELECT tag.name as tag_name , book_tag.count as count
+                    FROM book_tag, tag
+                    WHERE tag.tag_id = book_tag.tag_id AND book_tag.book_id = '" . $book_id . "';";
+
+            $get_count_book = $this->db_connection->query($sql);
+
+            $this->data["book_tag_status"] = array();
+
             if ($result_book->num_rows == 1) { 
+
+                if ($get_count_book) { 
+                    $i = 0;
+                    while ($result_row = $get_count_book->fetch_array(MYSQLI_ASSOC)) {
+
+                        $this->data["book_tag_status"][$i] = $result_row;
+                        $i++;
+                    }
+
+                } else {
+
+                    //$this->data["book_tag_status"] = "";
+                }
 
                 $this->data["book_id"] = $result_book_row->book_id;
                 $this->data["book_ISBN"] = $result_book_row->ISBN;
@@ -435,6 +461,47 @@ class Book
 
     }
 
+    public function getBookTagCount($book_id)
+    {
+        $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+        if (!$this->db_connection->set_charset("utf8")) {
+
+            $this->errors[] = $this->db_connection->error;
+        }
+
+        $arr_book_count = array(); 
+
+        if (!$this->db_connection->connect_errno) {
+
+            $sql = "SELECT tag.name as tag_name , book_tag.count as count
+                    FROM book_tag, tag
+                    WHERE tag.tag_id = book_tag.tag_id AND book_tag.book_id = '" . $book_id . "';";
+
+            $get_count_book = $this->db_connection->query($sql);
+
+            //$this->data["book_tag_status"] = array();
+            if ($get_count_book) { 
+                $i = 0;
+                while ($result_row = $get_count_book->fetch_array(MYSQLI_ASSOC)) {
+
+                    //$this->data["book_tag_status"][$i] = $result_row;
+                    $arr_book_count[$i] = $result_row;
+                    $i++;
+                }
+
+                return $arr_book_count;
+
+            } else {
+
+                return $arr_book_count;
+            }
+        } else {
+            return $arr_book_count;
+        }  
+    }
+
+
     public function isOwnerBook($book_id, $uid)
     {
         $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
@@ -479,6 +546,93 @@ class Book
         }
     }
 
+    public function getUserBook($uid)
+    {
+        $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+        if (!$this->db_connection->set_charset("utf8")) {
+
+            $this->errors[] = $this->db_connection->error;
+        }
+
+        $arr_user_book = array(); 
+
+        if (!$this->db_connection->connect_errno) {
+
+            $sql = "SELECT book.book_id as book_id, book.name as book_name ,book.description as book_description 
+                    FROM book,user_book 
+                    WHERE book.book_id = user_book.book_id AND user_book.uid = '" . $uid . "';";
+
+            $result_user_book = $this->db_connection->query($sql);
+
+            if ($result_user_book) { 
+
+                $i=0;
+
+                while ($result_row = $result_user_book->fetch_array(MYSQLI_ASSOC)) {
+
+                    $arr_user_book[$i] = $result_row;
+                    $i++;
+
+                }
+
+                return $arr_user_book;
+
+            } else {
+                return $arr_user_book;
+            }
+        } else {
+            return $arr_user_book;
+        }
+    }
+
+    public function getUserStatus($uid)
+    {
+        $user_books = array();
+        $user_books = $this->getUserBook($uid);
+        $user_tag_count_each_book = array();
+        $arr_tag = array();
+        $arr_tag_count = array();
+
+        $arr_combine = array();
+
+        $count_sum = 0;
+
+        if ($user_books) {
+            for ($i = 0; $i < count($user_books) ; $i++) {
+                if ($this->getBookTagCount($user_books[$i]["book_id"])) {
+                    $user_tag_count_each_book[$i] = $this->getBookTagCount($user_books[$i]["book_id"]);
+                } else { 
+                    continue;
+                }
+            }
+
+            for ($j = 0; $j < count($user_tag_count_each_book) ; $j++) {
+                for ($k = 0; $k < count($user_tag_count_each_book[$j]) ; $k++) {
+                    if(!in_array($user_tag_count_each_book[$j][$k]["tag_name"] , $arr_tag) ) {
+                        $arr_tag_count[] = $user_tag_count_each_book[$j][$k]["count"];
+                        $arr_tag[] = $user_tag_count_each_book[$j][$k]["tag_name"];
+                        
+                    } else {
+                        $arr_tag_count[array_search($user_tag_count_each_book[$j][$k]["tag_name"], $arr_tag)] += $user_tag_count_each_book[$j][$k]["count"];
+                    }
+                }
+            }
+            for ($i = 0; $i < count($arr_tag) ; $i++) {
+                $count_sum += $arr_tag_count[$i];
+            }
+
+            for ($i = 0; $i < count($arr_tag) ; $i++) {
+                $arr_combine[$i]["tag_name"] = $arr_tag[$i];
+                $arr_combine[$i]["count"] = $arr_tag_count[$i];
+                $arr_combine[$i]["freq"] = ($arr_tag_count[$i]/ $count_sum)*100  ;
+            }
+
+            return $arr_combine;
+        } else {
+            return $user_tag_count_each_book;
+        }
+    }
 
 }
 

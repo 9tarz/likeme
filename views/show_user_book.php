@@ -11,7 +11,7 @@ if (isset($book)) {
         }
     }
 
-    //var_dump($book->data);
+    //var_dump($book->getBookTagCount(1));
 }
 ?>
 </br>
@@ -24,3 +24,12 @@ if (isset($book)) {
     }
 ?>
 </br>
+
+<?php
+    /*if ($book->data) {
+        foreach ($book->data as $book_data) {
+            var_dump($book->getBookTagCount($book_data["book_id"]));
+        }
+    }*/
+    var_dump($book->getUserStatus($_GET["uid"]));
+?>
