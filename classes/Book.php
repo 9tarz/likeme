@@ -31,7 +31,7 @@ class Book
 
             $this->showBook();
 
-        } else if (isset($_GET["addBook"]) AND isset($_GET["book_id"]) AND isset($_POST["updateBook"])) {
+        } else if (isset($_GET["addBook"]) AND isset($_GET["book_id"]) AND isset($_POST["addBook"])) {
 
             $this->addBook();
 
@@ -474,7 +474,7 @@ class Book
 
         if (!$this->db_connection->connect_errno) {
 
-            $sql = "SELECT tag.name as tag_name , book_tag.count as count
+            $sql = "SELECT tag.tag_id as tag_id, tag.name as tag_name , book_tag.count as count
                     FROM book_tag, tag
                     WHERE tag.tag_id = book_tag.tag_id AND book_tag.book_id = '" . $book_id . "';";
 
@@ -586,12 +586,13 @@ class Book
         }
     }
 
-    public function getUserStatus($uid)
+    public function getUserStatus($uid, $cmd)
     {
         $user_books = array();
         $user_books = $this->getUserBook($uid);
         $user_tag_count_each_book = array();
         $arr_tag = array();
+        $arr_tag_id = array();
         $arr_tag_count = array();
 
         $arr_combine = array();
@@ -612,6 +613,7 @@ class Book
                     if(!in_array($user_tag_count_each_book[$j][$k]["tag_name"] , $arr_tag) ) {
                         $arr_tag_count[] = $user_tag_count_each_book[$j][$k]["count"];
                         $arr_tag[] = $user_tag_count_each_book[$j][$k]["tag_name"];
+                        $arr_tag_id[] = $user_tag_count_each_book[$j][$k]["tag_id"];
                         
                     } else {
                         $arr_tag_count[array_search($user_tag_count_each_book[$j][$k]["tag_name"], $arr_tag)] += $user_tag_count_each_book[$j][$k]["count"];
@@ -625,12 +627,185 @@ class Book
             for ($i = 0; $i < count($arr_tag) ; $i++) {
                 $arr_combine[$i]["tag_name"] = $arr_tag[$i];
                 $arr_combine[$i]["count"] = $arr_tag_count[$i];
+                $arr_combine[$i]["tag_id"] = $arr_tag_id[$i];
                 $arr_combine[$i]["freq"] = ($arr_tag_count[$i]/ $count_sum)*100  ;
             }
 
-            return $arr_combine;
+            if ($cmd == 0) {
+                return $arr_combine;
+            } else if ($cmd == 1) {
+                return $arr_tag_id;
+            } else if ($cmd == 2) {
+                return $arr_tag_count;
+            } else if ($cmd == 3) {
+                return $arr_tag;
+            }
         } else {
-            return $user_tag_count_each_book;
+            return $arr_combine;
+        }
+    }
+
+    public function getUsersID()
+    {
+        $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+        if (!$this->db_connection->set_charset("utf8")) {
+
+            $this->errors[] = $this->db_connection->error;
+        }
+
+        $arr_users_id = array(); 
+
+        if (!$this->db_connection->connect_errno) {
+
+            $sql = "SELECT uid 
+                    FROM user ;";
+
+            $result_get_users_id = $this->db_connection->query($sql);
+
+            if ($result_get_users_id) { 
+
+                $i=0;
+
+                while ($result_row = $result_get_users_id->fetch_array(MYSQLI_ASSOC)) {
+
+                    $arr_users_id[$i] = $result_row;
+                    $i++;
+
+                }
+
+                return $arr_users_id;
+
+            } else {
+                return $arr_users_id;
+            }
+        } else {
+            return $arr_users_id;
+        }
+    }
+
+    public function updatedUserTag($uid)
+    {
+        $arr_tag_id = $this->getUserStatus($uid, 1);
+
+        $arr_tag_count = $this->getUserStatus($uid, 2);
+
+        for ($i = 0 ; $i < count($arr_tag_id) ; $i++) {
+
+            $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+            if (!$this->db_connection->set_charset("utf8")) {
+                $this->errors[] = $this->db_connection->error;
+            }
+
+
+            $tag_id = $arr_tag_id[$i];
+            $count = $arr_tag_count[$i];
+
+            if (!$this->db_connection->connect_errno) {
+            
+                $sql = "SELECT user_tag_id 
+                        FROM user_tag 
+                        WHERE uid = '" . $uid . "' AND tag_id = '" . $tag_id. "' ;";
+
+                $query_user_tag_exist = $this->db_connection->query($sql);
+
+                if ($query_user_tag_exist->num_rows == 1) { //update Profile
+
+                    $sql = "UPDATE user_tag_id 
+                            SET count = '" . $count . "'
+                            WHERE uid = '" . $uid . "' AND tag_id = '" . $tag_id. "' ;";
+
+                    $query_update_user_tag = $this->db_connection->query($sql);
+
+                    if ($query_update_user_tag) {
+                        
+                        $this->messages[] = "User tag has been updated successfully.";
+                        //$this->showProfile();
+                    } else {
+                        
+                        $this->errors[] = "Sorry, your profile can not updated. Please go back and try again.";
+                    }
+
+
+                } elseif ($query_user_tag_exist->num_rows == 0) { //create new User tag(INSERT)
+
+                    $sql = "INSERT INTO user_tag
+                            (uid, tag_id, count ) 
+                            VALUES('" . $uid . "', '" . $tag_id . "', '" . $count . "');";
+                            
+                    $query_insert_new_user_tag = $this->db_connection->query($sql);
+
+                    if ($query_insert_new_user_tag) {
+
+                        $this->messages[] = "User tag has been created successfully.";
+                        //header("Location: profile.php?uid=" . $uid."");
+                    } else {
+                        
+                       $this->errors[] = "Sorry, new profile failed. Please go back and try again.";
+                    }
+
+                } else {
+
+                    $this->errors[] = "Problem in Profile Table.";
+                }
+            } else {
+                $this->errors[] = "Sorry, no database connection.";
+
+            }
+
+        }
+    }
+
+    public function searchByTag($tag_id, $uid)
+    {
+        $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+        if (!$this->db_connection->set_charset("utf8")) {
+
+            $this->errors[] = $this->db_connection->error;
+        }
+
+        $arr_users = array(); 
+
+        if (!$this->db_connection->connect_errno) {
+
+            $sql = "SELECT user.username as username, user_tag.count as tag_count
+                    FROM user_tag, user
+                    WHERE user_tag.uid = user.uid AND user_tag.uid != '" . $uid.  "' AND user_tag.tag_id = '" . $tag_id . "'
+                    GROUP BY username;";
+
+            $result_users = $this->db_connection->query($sql);
+
+            $sql2 = $sql = "SELECT user.username as username, user_tag.count as tag_count, SUM(user_tag.count) As sum_tag
+                    FROM user_tag, user
+                    WHERE user_tag.uid = user.uid AND user_tag.uid != '" . $uid.  "' AND user_tag.tag_id = '" . $tag_id . "';";
+
+            $result_users_sum = $this->db_connection->query($sql2);
+
+            $row_users_sum  = $result_users_sum->fetch_array(MYSQLI_ASSOC);
+            $count_sum = $row_users_sum["sum_tag"];
+
+            if ($result_users) { 
+
+                $i = 0;
+
+                while ($result_row = $result_users->fetch_array(MYSQLI_ASSOC)) {
+
+                    $arr_users[$i] = $result_row;
+                    $i++;
+
+                }
+
+                $arr_users["count_sum"] = $count_sum;
+
+                return $arr_users;
+
+            } else {
+                return $arr_users;
+            }
+        } else {
+            return $arr_users;
         }
     }
 

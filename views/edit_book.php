@@ -52,7 +52,7 @@ function showResult(str) {
     <input id="editBook_book_name" type="text" name="book_name" value="<?php echo $book->data["book_name"]; ?>" required />
 
     <label for="editBook_book_description">Book Description</label>
-    <textarea id="editBook_book_description" name="book_description"> <?php echo $book->data["book_description"]; ?> </textarea>
+    <textarea id="editBook_book_description" name="book_description"><?php echo $book->data["book_description"]; ?></textarea>
 
     <input type="submit"  name="updateBook" value="UpdateBook" />
 

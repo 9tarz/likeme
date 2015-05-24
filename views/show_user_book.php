@@ -26,10 +26,10 @@ if (isset($book)) {
 </br>
 
 <?php
-    /*if ($book->data) {
+    if ($book->data) {
         foreach ($book->data as $book_data) {
-            var_dump($book->getBookTagCount($book_data["book_id"]));
+            //var_dump($book->getBookTagCount($book_data["book_id"]));
         }
-    }*/
-    var_dump($book->getUserStatus($_GET["uid"]));
+    }
+    //var_dump($book->getUserStatus($_GET["uid"], 1));
 ?>

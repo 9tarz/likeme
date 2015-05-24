@@ -23,6 +23,8 @@ class Tag
             $this->searchTag();
         } else if (isset($_GET["addTag"]) AND isset($_GET["book_id"]) AND isset($_GET["tag_id"]) ) {
             $this->addTag();
+        } else if (isset($_GET["removeTag"]) AND isset($_GET["book_id"]) AND isset($_GET["tag_id"]) ) {
+            $this->removeTag();
         } else if (isset($_GET["showBook"]) AND isset($_GET["book_id"])) {
             $this->showBookTag();
         } else if (isset($_GET["updateBook"]) AND isset($_GET["book_id"])) {
@@ -149,6 +151,71 @@ class Tag
         }
     }
 
+    private function removeTag()
+    {
+        $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+        if (!$this->db_connection->set_charset("utf8")) {
+
+            $this->errors[] = $this->db_connection->error;
+        }
+
+        if (!$this->db_connection->connect_errno) {
+
+            $book_id = $this->db_connection->real_escape_string(strip_tags($_GET['book_id'], ENT_QUOTES));
+            $tag_id = $this->db_connection->real_escape_string(strip_tags($_GET['tag_id'], ENT_QUOTES));
+
+
+            $sql = "SELECT book_tag_id 
+                    FROM  book_tag
+                    WHERE tag_id = '" . $tag_id. "' AND book_id = '" .$book_id . "' ;";
+
+            $result_is_book_tag_exist = $this->db_connection->query($sql);
+
+            if ($result_is_book_tag_exist->num_rows == 1) {
+            	$result_row = $result_is_book_tag_exist->fetch_object();
+            	$result_row_book_tag_id = $result_row->book_tag_id;
+            } else {
+            	$result_row_book_tag_id = -1;
+            }
+
+            if ($this->isBookExist($book_id) AND $this->isTagExist($tag_id) AND !$this->isBookTagExist($tag_id,$book_id)) { 
+
+               	$this->errors[] = "Book Tag isn't in database";
+
+            } else if (!$this->isBookExist($book_id) OR !$this->isTagExist($tag_id)) { 
+                    $this->errors[] = "This book or This Tag isn't in database";
+
+            } else if ($this->isBookExist($book_id) AND $this->isTagExist($tag_id) AND $this->isBookTagExist($tag_id,$book_id)) {
+
+            	$sql = "SELECT count
+            			FROM book_tag
+            			WHERE book_tag_id = '" . $result_row_book_tag_id . " ' ;";
+
+            	$query_get_book_tag_count = $this->db_connection->query($sql);
+            	$count_row = $query_get_book_tag_count->fetch_object();
+            	$count = $count_row->count;
+
+            	$count--; // increase count
+
+            	$sql = "UPDATE book_tag
+                        SET count = ' " .$count. " '
+                        WHERE book_tag_id = '" . $result_row_book_tag_id . " ' ;";
+
+                $query_update_book_tag = $this->db_connection->query($sql);
+                $this->messages[] = "Remove This tag has been successfully.";
+                header("Location: book.php?updateBook&book_id=" . $book_id. "");
+
+                //$this->errors[] = "This book already have this Tag";
+
+            } else {
+                $this->errors[] = "Problem in BookTag Table.";
+            }
+        } else {
+            $this->errors[] = "Sorry, no database connection.";
+        }
+    }
+
 	private function searchTag()
     {
         $this->db_connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
@@ -199,7 +266,7 @@ class Tag
 
         if (!$this->db_connection->connect_errno) {
 
-            $sql = "SELECT tag.name as tag_name 
+            $sql = "SELECT tag.tag_id as tag_id, tag.name as tag_name 
                     FROM book_tag, book, tag
                     WHERE book.book_id = book_tag.book_id AND tag.tag_id = book_tag.tag_id 
                     AND book_tag.book_id = '" . $book_id . "';";
@@ -327,5 +394,6 @@ class Tag
     		return false;
     	}
     }
+
 
  }
