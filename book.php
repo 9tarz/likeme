@@ -14,11 +14,12 @@
 	$book = new Book();
 	$tag = new Tag();
 
-	
+
 	if ($book->isSearchBook() == true) {
 	    include("views/search_book.php");
 	} else if ($book->isAddBook() == true) {
-		include("views/search_book.php");
+		include("views/add_book.php");
+		include("views/edit_tag.php");
 	} else if ($book->isShowBook() == true) {
 		include("views/show_book.php");
 	} else if ($book->isUpdateBook() == true) {
