@@ -44,8 +44,7 @@ if (isset($profile)) {
             <label for="about" style="display:block; text-align: center;">About you</label>
 
             <div style="display:block">
-                <textarea id="editProfile_about" name="about" rows="4" cols="70">
-                <?php echo $profile->data['about']; ?></textarea>
+                <textarea id="editProfile_about" name="about" rows="4" cols="70"><?php echo $profile->data['about']; ?></textarea>
             </div>
             
             <div style="display:block; text-align: center; margin: auto">

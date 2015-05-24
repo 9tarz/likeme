@@ -5,6 +5,7 @@ if (isset($book)) {
             echo $error;
         }
     }
+}
 ?>
 <!-- book_id, book_name, book_description -->
 <div class="pure-u-1 pure-u-md-1-1 pure-u-lg-1-1">
