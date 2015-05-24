@@ -49,8 +49,8 @@
         <div class="pure-u-1 pure-u-md-1-1">
             <div class="l-box">
                 <h3 class="information-head">How it works</h3>
-                <p>
-                    Yeah it's the most magicle things we've every done. xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxx xxxxxx xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                <p style="text-align: left;">
+                    Have you ever wondered who would love to a horror series or read the whole spiderman comic like you? Well you will! By telling us what book you read and what tag or genre it is, we can collect data and compare to each other to see who have the same interests as you!
                 </p>
             </div>
         </div>

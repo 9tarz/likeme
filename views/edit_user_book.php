@@ -33,6 +33,7 @@
           if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
             document.getElementById("livesearch").style.border="1px solid #FFFFFF";
+            document.getElementById("livesearch").style.color="white";
           }
         }
         xmlhttp.open("GET","book.php?searchKeyword="+str,true);

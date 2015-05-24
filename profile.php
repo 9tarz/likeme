@@ -30,7 +30,14 @@
             <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a class="pure-menu-heading" href="">Like Me</a>
                 <ul class="pure-menu-list">
-                	<a href="index.php?signout">Signout</a>
+                	<a href="index.php?signout">
+                        <button class="button-success pure-button"
+                        style="color: white;
+                            border-radius: 4px;
+                            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+                            background: rgb(223, 117, 20);
+                            margin-top:5px">Log out</button>
+                    </a>
                 </ul>
             </div>
         </div>
@@ -40,7 +47,7 @@
                 <h1 class="splash-head">Insert profile img here</h1>
                 <p>
                 	<?php 
-                	if($profile->isEditProfile() == false)
+                	if($profile->isProfileOwner() == true AND $profile->isEditProfile() == false)
                     	echo "<a href=\"profile.php?uid=" .$_GET["uid"] . "&editProfile\" class=\"pure-button pure-button-primary\">Edit profile</a>";
                 	?>
                 </p>
@@ -71,7 +78,7 @@
 					}
 
 				?>
-                
+
             </div>
 
 

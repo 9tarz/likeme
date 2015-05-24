@@ -110,7 +110,7 @@ p {
  * Choose a different color based on the type of pricing table.
  */
 .pricing-table-free .pricing-table-header {
-    background: #519251;
+    background: #bbbb00;
 }
 
 .pricing-table-biz .pricing-table-header {
