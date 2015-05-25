@@ -2,7 +2,24 @@
 
 Who is similar to me?
 
+Play us online!: http://sakkawa.com/likeme/
+repository on GitHub: https://github.com/9tarz/likeme
+
 ## Developed by ##
-* Kanatip Chitavisutthivong 
-* Punnatad Chansri 
-* Takkasila Saichol 
+* Kanatip Chitavisutthivong 5610503833
+* Punnatad Chansri 5610500231
+* Takkasila Saichol 5610501962
+
+## วิธีการติดตั้ง ##
+source code ที่ส่งให้มาจำเป็นต้องมีระบบพื้นฐานสองอย่างจึงจะรันได้คือ
+* Apache ถ้ายังไม่มีสามารถหาได้จาก http://www.apache.org/dyn/closer.cgi
+* MySql สามารถหาได้จาก http://www.mysql.com/downloads/
+หลังจากนั้นแล้วสามารถย้าย source code folder ไปยัง local host แล้วสามารถรันเลยเลยเช่น http://localhost/likeme/
+* ตั้งค่า MySQL hostname, username, password, table ที่ไฟล์ likeme/config/db_config.php
+
+## วิธีการใช้งาน ##
+1. ถ้ายังไม่เคยใช้งานก่อนหน้าสามารถสมัครเข้าใช้งานได้ที่หน้าแรก แต่ถ้าเลยลงชื่อใช้งานและเปิดในเครื่องนี้แล้วหน้า website จะย้ายไปที่หน้า profile โดยอัตโนมัติ
+2. ที่หน้า profile จะแสดงชื่อแล้ว description ของผู้ใช้ เมื่อเลื่อนลงมาด้านล่างจะแสดงรายการหนังสือที่ผู้ใช้เคยบันทึกในรายการของตนเองไว้แล้ว
+3. เราสามารถเพิ่มหนังสือเข้าไปในรายการของตนเองหรือแก้ไข้ข้อมูลต่างๆด้วยการกดไปที่ปุ่ม edit profile
+4. ที่หน้า edit profile เราสามารถแก้ไขข้อมูลตนเองได้และสามารถเพิ่มหนังสือได้ด้านล่างโดยถ้า search แล้วมีหนังสืออยู่ในระบบเราสามารถหยิมมาได้เลย แต่ถ้ายังไม่มีเราสามารถเพิ่มหนังสือเข้าไปในระบบด้วยการระบุ ISBN, ชื่อ และ คำอธิบายสั้นๆ หลังจากนั้นแล้วเราสามารถเพิ่ม tag เข้าไปในหนังสือเล่มนั้นๆได้
+5. หลังจากที่เรามีหนังสือและ tag ของเราเพียงพอแล้ว เราสามารถค้นดูได้ว่าเรามีความสัมพันธ์ผ่าน tag กับบุคคลใดบ้าง สมมุติ tag แฟนตาซีเราก็จะเห็นได้ว่ามีใครสนใจด้าน tag แฟนตาซีออกมาเป็นกราฟ
