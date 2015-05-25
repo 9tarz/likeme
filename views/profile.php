@@ -5,16 +5,21 @@ if (isset($profile)) {
             echo $error;
         }
     }
-    if ($profile->messages) {
-        foreach ($profile->messages as $message) {
-            echo $message;
-        }
-    }
-
-    var_dump($profile->data);
 }
 ?>
-</br>
-<p> last updated at <?php if (isset($profile->data['last_updated_at'])) echo $profile->data['last_updated_at']; else echo ""; {
-    # code...
-}?> </p>
+
+
+<h2 class="content-head is-center">
+    <?php echo $profile->data["first_name"]." ".$profile->data["last_name"]; ?>
+</h2>
+<div class="pure-g">
+    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3"></div>
+    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
+        <h3 class="content-subhead" style="text-align: center;">
+            About me
+        </h3>
+        <p>
+            <?php echo $profile->data["about"]; ?>
+        </p>
+    </div>
+</div>

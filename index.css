@@ -1,0 +1,45 @@
+.center_circle {
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	border:  2px solid red;
+	border-radius: 50%;
+	left: 50%;
+	top: 50%;
+	margin-top: -100px;
+	margin-left: -100px;
+
+}
+
+xxx {
+	
+}
+
+* {
+	border: 1px dashed blue;
+}
+
+div {
+	height: 50px;
+	width: 100px;
+	border: 2px solid black;
+	border-radius: 5px;
+	display: block;
+	
+}
+
+#one {
+	background-color: #FF0000;
+}
+
+#two {
+	background-color: #0000FF;
+}
+
+#three {
+	background-color: #FFD700;
+}
+
+#four {
+	background-color: #308014;
+}
