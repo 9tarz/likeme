@@ -179,12 +179,14 @@ class Book
         if (!$this->db_connection->connect_errno) {
 
             $book_name = $this->db_connection->real_escape_string(strip_tags($_POST['book_name'], ENT_QUOTES));
+            $book_id = $this->db_connection->real_escape_string(strip_tags($_GET['book_id'], ENT_QUOTES));
             $book_description = $this->db_connection->real_escape_string(strip_tags($_POST['book_description'], ENT_QUOTES));
             $uid = $_SESSION['uid'];
 
+
             $sql = "SELECT book_id 
                     FROM  book
-                    WHERE name = '" . $book_name . "';";
+                    WHERE book_id = '" . $book_id . "';";
 
             $result_is_book_exist = $this->db_connection->query($sql);
 

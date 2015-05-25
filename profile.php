@@ -44,7 +44,7 @@
 
         <div class="splash-container">
             <div class="splash">
-                <h1 class="splash-head">Insert profile img here</h1>
+                <a href="<?php echo "search.php?uid=" .$_GET["uid"]. "" ; ?>"><h1 class="splash-head" style="background-color:rgb(223, 70, 20)">START SEARCHING</h1></a>
                 <p>
                 	<?php 
                 	if($profile->isProfileOwner() == true AND $profile->isEditProfile() == false)
